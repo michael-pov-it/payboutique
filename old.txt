@@ -1,0 +1,28 @@
+
+request(APIUrl + userMethod + 'project=' + publicKey + '&identifier=' + identifier + '&ip=' + ip + '&signature=' + signature,
+    { json: true },
+    (err, req, res, body) => {
+  if (err) { return console.log(err); }
+  //console.log(res.statusCode);
+});
+
+/*
+"http://api.demo.crassu.la/v1/user/resolve" \
+    -d signature=135ef9ee89f1f1addc43211b70ff4d3a976ac44ff56b7470c178618f6f19c204 \
+    -d project= \
+    -d identifier=1 \
+    -d ip=127.0.0.1
+// User resolve params
+var params = {
+    'signature': '135ef9ee89f1f1addc43211b70ff4d3a976ac44ff56b7470c178618f6f19c204',
+    'project': '7c40fbd9d339299e3cc060e0c9243acb',
+    'identifier': 1,
+    'ip': '127.0.0.1'
+}
+request( 'signature=' + signature, function(error, req, response, body) {
+    console.log('ERROR:', error);
+    console.log('Statuscode:', response.statusCode);
+    console.log('Request:', req.headers);
+    //console.log('Body', body);
+});
+*/

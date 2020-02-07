@@ -1,0 +1,23 @@
+{
+  "name": "payboutique",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michael-pov-it/payboutique.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/michael-pov-it/payboutique/issues"
+  },
+  "homepage": "https://github.com/michael-pov-it/payboutique#readme",
+  "dependencies": {
+    "request": "^2.88.0"
+  }
+}
