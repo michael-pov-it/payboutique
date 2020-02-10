@@ -1,33 +1,42 @@
-const request = require('request');
 const rp = require('request-promise');
 const crypto = require('crypto');
-
-const userId = require(./index.js);
-let token = require('./getToken')( function(data) {} );
+//const getUserId = require('./getUserId');
+//const getToken = require('./getToken');
 
 // Params array
-const APIUrl = 'https://api.demo.crassu.la/v1/';
+const paymentUri = 'https://api.demo.crassu.la/v1/card/process';
 const publicKey = 'd55ad89070d6172cc0eeeecfdde2c554';
 const privateKey = '7c40fbd9d339299e3cc060e0c9243acb';
 const algorithm = 'sha256';
 
-// Resolving user. Required: Public Key, Identifier, IP, Sign
-const paymentMethod = 'card/process?';
-let identifier = "1";
-let ip = "127.0.0.1";
+// Payment. Required: Public Key, User ID, Card token, Price, Currency, Description, 3DS, Sign
+//external
+let user = "429";
+let token = "a2cd877198d18bf34df845d1b22747924615be0b72e92328c43ab33e7117381b";
+//internal
+let price = "5.99";
+let currency = "USD";
+let description = "My custom description.";
+let threeDS = "0";
 let paymentParams = [
     publicKey,
-    userId,
-    ip
+    user,
+    token,
+    price,
+    currency,
+    description,
+    threeDS
 ];
-let parameters = userResolveParams.sort().join('|');
+let parameters = paymentParams.sort().join('|');
 const signature = crypto.createHmac(algorithm, privateKey).update(parameters).digest('hex');
 
-//console.log( "Resolve user data is: " + parameters);
+console.log( "Payment data is: " + parameters);
 console.log( "Signature is : " + signature);
+
+/*
 let paymentOptions = {
   method: 'POST',
-  uri: APIUrl + paymentMethod,
+  uri: paymentUri,
   json: {
     project: publicKey,
     
@@ -47,3 +56,4 @@ let payment = function(paymentStatus) {
 payment(function(data) { 
   console.log("Payment: " + data);
 });
+*/

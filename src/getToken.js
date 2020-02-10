@@ -1,5 +1,4 @@
 const rp = require('request-promise');
-const http = require('http');
 
 // Params array
 const APIUrl = 'http://api.demo.crassu.la/v1/';
@@ -14,16 +13,20 @@ let getTokenOptions = {
   method: 'GET',
   uri: APIUrl + tokenMethod + "project=" + publicKey + "&number=" + number + "&expiration_month=" + expiration_month + "&expiration_year=" + expiration_year + "&security_code=" + security_code
 };
-var getToken = function(getTokenId) {
-rp(getTokenOptions)
+let getToken = function(getTokenId) {
+  rp(getTokenOptions)
   .then(function (body) {
       let token = JSON.parse(body);
       getTokenId(token.id);
-      console.log(token.id);
+      console.log("Card token is: " + token.id);
   })
   .catch(function (err) {
       console.log(err.message);
   });
 };
-
-module.exports = getToken;
+/*
+getToken(function(data) { 
+  console.log("User's ID is: " + data);
+});
+*/
+module.exports.getToken = getToken(function(data){});

@@ -1,4 +1,3 @@
-const request = require('request');
 const rp = require('request-promise');
 const crypto = require('crypto');
 
@@ -21,7 +20,7 @@ let parameters = userResolveParams.sort().join('|');
 const signature = crypto.createHmac(algorithm, privateKey).update(parameters).digest('hex');
 
 //console.log( "Resolve user data is: " + parameters);
-console.log( "Signature is : " + signature);
+//console.log( "Signature is : " + signature);
 let resolveUserOptions = {
   method: 'POST',
   uri: APIUrl + userMethod,
@@ -32,20 +31,21 @@ let resolveUserOptions = {
     signature: signature
   }
 };
-let userId = function(getUserID) {
+let getUserId = function(getUserID) {
   rp(resolveUserOptions)
-  .then(function (body, res) {
+  .then(function (body) {
     let data = body.id;
     getUserID(data);
+    console.log("User ID: " + data);
   })
   .catch(function (err) {
-      console.log(err);
+      console.log(err.message);
   })
 };
-/*userId(function(data) { 
+/*
+getUserId(function(data) { 
   console.log("User's ID is: " + data);
-});*/
+});
+*/
 
-let token = require('./getToken')( function(data) {} );
-
-module.exports.userId = userId;
+module.exports.getUserId = getUserId(function(data){});
