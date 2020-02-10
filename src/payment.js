@@ -2,6 +2,9 @@ const request = require('request');
 const rp = require('request-promise');
 const crypto = require('crypto');
 
+const userId = require(./index.js);
+let token = require('./getToken')( function(data) {} );
+
 // Params array
 const APIUrl = 'https://api.demo.crassu.la/v1/';
 const publicKey = 'd55ad89070d6172cc0eeeecfdde2c554';
@@ -9,12 +12,12 @@ const privateKey = '7c40fbd9d339299e3cc060e0c9243acb';
 const algorithm = 'sha256';
 
 // Resolving user. Required: Public Key, Identifier, IP, Sign
-const userMethod = 'user/resolve?';
+const paymentMethod = 'card/process?';
 let identifier = "1";
 let ip = "127.0.0.1";
-let userResolveParams = [
+let paymentParams = [
     publicKey,
-    identifier,
+    userId,
     ip
 ];
 let parameters = userResolveParams.sort().join('|');
@@ -22,30 +25,25 @@ const signature = crypto.createHmac(algorithm, privateKey).update(parameters).di
 
 //console.log( "Resolve user data is: " + parameters);
 console.log( "Signature is : " + signature);
-let resolveUserOptions = {
+let paymentOptions = {
   method: 'POST',
-  uri: APIUrl + userMethod,
+  uri: APIUrl + paymentMethod,
   json: {
     project: publicKey,
-    identifier: identifier,
-    ip: ip,
+    
     signature: signature
   }
 };
-let userId = function(getUserID) {
-  rp(resolveUserOptions)
+let payment = function(paymentStatus) {
+  rp(paymentOptions)
   .then(function (body, res) {
     let data = body.id;
-    getUserID(data);
+    paymentStatus(data);
   })
   .catch(function (err) {
       console.log(err);
   })
 };
-/*userId(function(data) { 
-  console.log("User's ID is: " + data);
-});*/
-
-let token = require('./getToken')( function(data) {} );
-
-module.exports.userId = userId;
+payment(function(data) { 
+  console.log("Payment: " + data);
+});
