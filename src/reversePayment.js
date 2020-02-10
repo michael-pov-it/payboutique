@@ -30,14 +30,16 @@ let reversePaymentOptions = {
     }
 };
 let reversePayment = function(reversePaymentStatus) {
-    rp(reversePaymentOptions)
-    .then(function (body, res) {
-      let data = body.id;
-      reversePaymentStatus(data);
-    })
-    .catch(function (err) {
-        console.log(err.message);
-    })
+    setTimeout(function() {
+        rp(reversePaymentOptions)
+        .then(function (body, res) {
+        let data = body.id;
+        reversePaymentStatus(data);
+        })
+        .catch(function (err) {
+            console.log(err.message);
+        })
+    }, 3000);
 };
 /*
 reversePayment(function(data) { 
