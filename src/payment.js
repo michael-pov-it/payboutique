@@ -33,13 +33,17 @@ const signature = crypto.createHmac(algorithm, privateKey).update(parameters).di
 console.log( "Payment data is: " + parameters);
 console.log( "Signature is : " + signature);
 
-/*
 let paymentOptions = {
   method: 'POST',
   uri: paymentUri,
   json: {
-    project: publicKey,
-    
+    publicKey: publicKey,
+    user: user,
+    token: token,
+    price: price,
+    currency: currency,
+    description: description,
+    threeDS: threeDS,
     signature: signature
   }
 };
@@ -50,9 +54,10 @@ let payment = function(paymentStatus) {
     paymentStatus(data);
   })
   .catch(function (err) {
-      console.log(err);
+      console.log(err.message);
   })
 };
+/*
 payment(function(data) { 
   console.log("Payment: " + data);
 });
