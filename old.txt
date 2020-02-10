@@ -26,3 +26,40 @@ request( 'signature=' + signature, function(error, req, response, body) {
     //console.log('Body', body);
 });
 */
+
+
+
+GET User ID OLD
+
+//console.log( "Resolve user data is: " + parameters);
+//console.log( "Signature is : " + signature);
+/*
+let resolveUserOptions = {
+  method: 'POST',
+  uri: APIUrl + userMethod,
+  json: {
+    project: publicKey,
+    identifier: identifier,
+    ip: ip,
+    signature: signature
+  }
+};
+let getUserId = function(getUserID) {
+  rp(resolveUserOptions)
+  .then(function (body) {
+    let data = body.id;
+    getUserID(data);
+    console.log("User ID: " + data);
+  })
+  .catch(function (err) {
+      console.log(err.message);
+  })
+};
+/*
+getUserId(function(data) { 
+  console.log("User's ID is: " + data);
+});
+
+
+module.exports.getUserId = getUserId(function(data){});
+*/

@@ -9,41 +9,45 @@ const algorithm = 'sha256';
 
 // Reverse payment. Required: Public Key, Payment ID, Sign
 //external
-let paymentId = "1581331469219172091";
+let lastPaymentId = "1581352930822330971";
 let reversePaymentParams = [
     publicKey,
-    paymentId
+    lastPaymentId
 ];
 let parameters = reversePaymentParams.sort().join('|');
 const signature = crypto.createHmac(algorithm, privateKey).update(parameters).digest('hex');
 
-console.log( "Payment data is: " + parameters);
+console.log( "Reverse data is: " + parameters);
 console.log( "Signature is : " + signature);
-
+/*
 let reversePaymentOptions = {
     method: 'POST',
     uri: paymentUri,
     json: {
       project: publicKey,
-      id: paymentId,
+      id: lastPaymentId,
       signature: signature
     }
 };
-let reversePayment = function(reversePaymentStatus) {
-    setTimeout(function() {
-        rp(reversePaymentOptions)
-        .then(function (body, res) {
-        let data = body.id;
-        reversePaymentStatus(data);
-        })
-        .catch(function (err) {
-            console.log(err.message);
-        })
-    }, 3000);
+
+async function reversePayment() {
+    let id = rp(reversePaymentOptions)
+      .then(function (body) {
+        //if(body.success)  console.log(`Transaction ID is - ${body.id}`);
+        let getReversePaymentId = JSON.parse(body);
+        return getReversePaymentId;
+      })
+      .catch(function (error) {
+        console.log(error.error);
+      });
+      return id;
 };
-/*
-reversePayment(function(data) { 
-    console.log("reverse payment: " + data);
-});
+  
+async function reversePaymentId() {
+    let reverseId = await reversePayment();
+    console.log(`Reverse Payment ID is ${reverseId}`);
+    return reverseId;
+};
+reversePaymentId();
+
 */
-module.exports.reversePayment = reversePayment(function(data){});
